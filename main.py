@@ -11,41 +11,47 @@ supabase: Client = create_client(url, key)
 
 app = FastAPI()
 
-class Item(BaseModel):
-    name: str
-    description: str = None
+class ChocolateBar(BaseModel):
+    company: str
+    specific_bean_origin_or_bar_name: str
+    ref: int
+    review_date: int
+    cocoa_percent: str
+    company_location: str
+    rating: float
+    bean_type: str
+    broad_bean_origin: str
 
-@app.post("/items/")
-def create_item(item: Item):
-    data = supabase.table("tasks").insert(item.dict()).execute()
+@app.post("/chocolate_bar/")
+def create_chocolate_bar(chocolatebar: ChocolateBar):
+    data = supabase.table("chocolate_bars").insert(chocolatebar.dict()).execute()
     if data.data:
         return data.data
     else:
-        raise HTTPException(status_code=400, detail="Item could not be created")
+        raise HTTPException(status_code=400, detail="Chocolate bar could not be created")
     
 
-@app.get("/items/")
-def read_items():
-    data = supabase.table("tasks").select("*").execute()
+@app.get("/chocolate_bars/")
+def read_chocolate_bars():
+    data = supabase.table("chocolate_bars").select("*").execute()
     if data.data:
         return data.data
     else:
-        raise HTTPException(status_code=404, detail="Items not found")
+        raise HTTPException(status_code=404, detail="Chocolate bar not found")
     
 
-@app.put("/items/{item_id}")
-def update_item(item_id: int, item: Item):
-    data = supabase.table("tasks").update(item.dict()).eq("id", item_id).execute()
+@app.put("/chocolate_bars/{chocolate_bar_id}")
+def update_chocolate_bars(chocolate_bar_id: int, chocolatebar: ChocolateBar):
+    data = supabase.table("chocolate_bars").update(chocolate_bar_id.dict()).eq("id", chocolate_bar_id).execute()
     if data.data:
         return data.data
     else:
-        raise HTTPException(status_code=404, detail="Item not found")
+        raise HTTPException(status_code=404, detail="Chocolate bar not found")
 
-@app.delete("/items/{item_id}")
-def delete_item(item_id: int):
-    data = supabase.table("tasks").delete().eq("id", item_id).execute()
+@app.delete("/chocolate_bars/{chocolate_bar_id}")
+def delete_chocolate_bars(chocolate_bar_id: int):
+    data = supabase.table("chocolate_bars").delete().eq("id", chocolate_bar_id).execute()
     if data.data:
-        return {"message": "Item deleted successfully"}
+        return {"message": "Chocolate bar deleted successfully"}
     else:
-        raise HTTPException(status_code=404, detail="Item not found")
-    
+        raise HTTPException(status_code=404, detail="Chocolate bar not found")
