@@ -42,7 +42,7 @@ def read_chocolate_bars():
 
 @app.put("/chocolate_bars/{chocolate_bar_id}")
 def update_chocolate_bars(chocolate_bar_id: int, chocolatebar: ChocolateBar):
-    data = supabase.table("chocolate_bars").update(chocolate_bar.dict()).eq("id", chocolate_bar_id).execute()
+    data = supabase.table("chocolate_bars").update(chocolatebar.dict()).eq("id", chocolate_bar_id).execute()
     if data.data:
         return data.data
     else:
